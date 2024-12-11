@@ -1,0 +1,24 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+    var root = Model.AncestorsOrSelf().Last();
+    var contact = root.Value<IEnumerable<BlockListItem>>("homeContact").Select(x => x.Content);
+
+}
+
+@if(contact != null)
+{
+
+<div class="nav-social">
+    <span class="nav-social_title">@Umbraco.GetDictionaryValue("home.Social") : </span>
+        <ul >
+            @foreach(var item in contact.Where(x=>x.Value("contactMedia").ToString().Contains("social")))
+            {
+                <li><a href="@item.Value("contactPath")" target="_blank"><i class="fab fa-@item.Value("contactMedia").ToString().Split('-').Last().ToLower()"></i></a></li>
+            }
+        </ul>
+</div>
+}

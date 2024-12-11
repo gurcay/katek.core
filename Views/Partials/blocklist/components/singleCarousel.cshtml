@@ -1,0 +1,30 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+@{
+    var carousel = Model.Value<IEnumerable<BlockListItem>>("homeCarousel").Select(x => x.Content);
+
+}
+                            <!-- hero-slider-wrap --> 
+                        <div class="hero-slider-wrap fl-wrap full-height">
+                            <div class="hero-slider fs-gallery-wrap fl-wrap full-height">
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper" >
+                                        <!-- swiper-slide-->
+                                        @foreach(var block in carousel){
+                                        <div class="swiper-slide">
+                                            <div class="half-hero-wrap">
+                                                <div class="pr-bg"></div>
+                                             
+                                                <h1>@block.Value("cTitle")</h1>
+                                                <h4>@block.Value("cText")</h4>
+                                                <div class="clearfix"></div>
+                                                <a href="hakkinizda.html" class="half-hero-wrap_link ajax">DETAYLI BİLGİ <i class="fal fa-long-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <!-- swiper-slide end-->
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    

@@ -1,0 +1,36 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.PublishedContent;
+
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = "mainTemplate.cshtml";
+    var root = Model.AncestorsOrSelf().Last();
+    var contactPage = root.Children().Where(x=> x.GetTemplateAlias().ToString() == "contactPage").FirstOrDefault();
+}
+
+                    <div class="content full-height hidden-item home-half-slider">
+                        <div class="hero-canvas-wrap">
+                            <div class="dots gallery__dots" data-dots=""></div>
+                        </div>
+                        <!-- option-panel-->  
+                        <div class="option-panel bot-element">
+                            <a href="@contactPage.Url()" class="ajax start-btn color-bg"> @Umbraco.GetDictionaryValue("home.Contact") <i class="fal fa-long-arrow-right"></i></a>
+                            <div class="swiper-counter">
+                                <div id="current">01</div>
+                                <div id="total"></div>
+                            </div>
+                            <div class="slide-progress-container">
+                                <div class="slide-progress-warp">
+                                    <div class="slide-progress color-bg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--option-panel end -->                
+                        <!-- hero-slider-wrap --> 
+                        @await Html.PartialAsync("singleCarousel")
+                        <!-- hero-slider-wrap  end--> 
+                        <!-- hero-slider-img--> 
+                        @await Html.PartialAsync("singleCarouselImg")
+                        <!-- hero-slider-img  end--> 
+                    </div>
+

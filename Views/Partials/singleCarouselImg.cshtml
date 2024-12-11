@@ -1,0 +1,30 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+    var root = Model.AncestorsOrSelf().Last();
+    var carousel = root.Value<IEnumerable<BlockListItem>>("homeCarousel").Select(x => x.Content);
+
+}
+  <div class="hero-slider-img hero-slider-wrap_halftwo">
+    <div class="sec-lines"></div>
+       <div class="swiper-container">
+           <div class="swiper-wrapper" >
+                @foreach(var block in carousel)
+                {
+                    if(block.HasValue("cImage"))
+                    {
+                        <!-- swiper-slide-->
+                        var image = block.Value<MediaWithCrops>("cImage").Url();
+                        <div class="swiper-slide">
+                        <div class="bg"  data-bg="@image"></div>
+                        <div class="overlay"></div>
+                        </div>
+                        <!-- swiper-slide end-->
+                    }
+                }
+           </div>
+        </div>
+  </div>

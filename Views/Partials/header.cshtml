@@ -1,0 +1,48 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+    var root = Model.AncestorsOrSelf().Last();
+    var contact = root.Value<IEnumerable<BlockListItem>>("homeContact").Select(x => x.Content);
+    string logoPath = "/images/logo.png";
+    if(Model.HasValue("siteLogo"))
+    {
+        logoPath = root.Value<MediaWithCrops>("siteLogo").Url().ToString();
+    }
+}
+
+<header class="main-header">
+    <a href="@root.Url()" class="header-logo ajax"><img src="@logoPath" alt=""></a>
+    <!-- sidebar-button --> 
+    <!-- nav-button-wrap-->
+    <div class="nav-button-wrap">
+        <div class="nav-button">
+            <span  class="nos"></span>
+            <span class="ncs"></span>
+            <span class="nbs"></span>
+            <div class="menu-button-text">Menu</div>
+        </div>
+    </div>
+    <!-- nav-button-wrap end-->
+    <!-- sidebar-button end-->  
+    <!--  navigation --> 
+    <div class="header-contacts">
+        <ul>
+            @foreach(var item in contact)
+            {
+                if(item.Value("contactMedia").ToString().Contains("elefon"))
+                {
+                    <li><span> Telefon </span> <a href="tel:@item.Value("contactPath")">@item.Value("contactPath")</a></li>
+                }
+                else if(item.Value("contactMedia").ToString().Contains("osta"))
+                {
+                    <li><span> E-Posta </span> <a href="mailto:@item.Value("contactPath")">@item.Value("contactPath")</a></li>
+                }
+            }
+            
+        </ul>
+    </div>
+    <!-- navigation  end -->            
+</header>

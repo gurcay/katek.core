@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+@{
+    var carousel = Model.Value<IEnumerable<BlockListItem>>("homeCarousel").Select(x => x.Content);
+
+}
+                            <!-- hero-slider-wrap --> 
+                        <div class="hero-slider-wrap fl-wrap full-height">
+                            <div class="hero-slider fs-gallery-wrap fl-wrap full-height">
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper" >
+                                        <!-- swiper-slide-->
+                                        @foreach(var block in carousel){
+                                            var link = block.Value<Link>("cLink");
+                                        <div class="swiper-slide">
+                                            <div class="half-hero-wrap">
+                                                <div class="pr-bg"></div>
+                                                <h1>@block.Value("cTitle").ToString().Split(' ').First()<span>@(" " + block.Value("cTitle").ToString().Split(' ').Last())</span></h1>
+                                                <h4>@block.Value("cText")</h4>
+                                                <div class="clearfix"></div>
+                                                <a href="@(link == null ? "#": link.Url)" class="half-hero-wrap_link ajax">@(link.Name == null ? "Detaylı Bilgi" : link.Name) <i class="fal fa-long-arrow-right"></i></a>
+                                            </div>
+                                        </div>
+                                        <!-- swiper-slide end-->
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hero-slider_control-wrap bot-element">
+                                <div class="hero-slider_control hero-slider-button-next"><span>@Umbraco.GetDictionaryValue("home.Next")<i class="fal fa-angle-right"></i></span> </div>
+                                <div class="hero-slider_control hero-slider-button-prev"><span><i class="fal fa-angle-left"></i>@Umbraco.GetDictionaryValue("home.Prev") </span></div>
+                            </div>
+                            <div class="hero-slider-wrap_pagination hlaf-slider-pag"></div>
+                        </div>    

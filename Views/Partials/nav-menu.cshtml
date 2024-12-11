@@ -1,0 +1,76 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models;
+
+@{
+    var navigation = Umbraco.ContentAtRoot().FirstOrDefault()
+    .Children()
+    .Where(x => x.IsVisible());
+
+    var root = Model.AncestorsOrSelf().Last();
+}
+
+@if (navigation != null)
+{
+    <nav class="nav-inner" id="menu">
+    <ul>
+        <li>
+            <a href="@root.Url()" class="act-link">@root.Name.ToString().ToUpper()</a>
+        </li>
+        @foreach (var item in navigation)
+            {
+
+                if (item.Children().Any())
+                {
+                    <li>
+                        <a href="#">@item.Name.ToString().ToUpper()</a>
+                        <!--level 2 -->
+                        <ul>
+                            @foreach (var cItem in item.Children())
+                            {
+                                if (cItem.HasValue("externalMedia"))
+                                {
+                                    var url = cItem.Value<MediaWithCrops>("externalMedia").Url();
+                                    <li><a target="_blank" onclick="window.open('@url')" class="ajax">@cItem.Name.ToString().ToUpper()</a>
+                                    </li>
+
+                                }
+                                else
+                                {
+                                    var url = cItem.Url();
+                                    <li><a href="@url" class="ajax">@cItem.Name.ToString().ToUpper()</a></li>
+                                }
+
+                            }
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="@item.Url()">@item.Name.ToString().ToUpper()</a>
+                    </li>
+                }
+
+            }
+
+            @if (root.HasValue("sitePartners"))
+            {
+                var links = root.Value<IEnumerable<Link>>("sitePartners");
+                <li>
+                    <a href="#">@Umbraco.GetDictionaryValue("nav.Partners").ToString().ToUpper()</a>
+                    <!--level 2 -->
+                    <ul>
+                        @foreach (var link in links)
+                        {
+                            <li><a target="@link.Target" onclick="location.href='@link.Url'"
+                                    class="ajax">@link.Name.ToString().ToUpper()</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+
+
+        </ul>
+    </nav>
+}

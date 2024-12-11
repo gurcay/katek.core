@@ -1,0 +1,114 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+	Layout = null;
+    var root = Model.AncestorsOrSelf().Last();
+}
+
+<!DOCTYPE HTML>
+<html lang="en">
+     
+<head>
+        <!--=============== basic  ===============-->
+        <meta charset="UTF-8">
+        <title>Katek Grup</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="robots" content="index, follow"/>
+        <meta name="keywords" content=""/>
+        <meta name="description" content=""/>
+        <!--=============== css  ===============-->	
+        <link type="text/css" rel="stylesheet" href="/css/reset.css">
+        <link type="text/css" rel="stylesheet" href="/css/plugins.css">
+        <link type="text/css" rel="stylesheet" href="/css/style.css">
+        <link type="text/css" rel="stylesheet" href="/css/color.css"> 
+        <!--=============== favicons ===============-->
+        <link rel="shortcut icon" href="/images/favicon.ico">
+    </head>
+    <body> 
+        <!--Loader -->
+        <div class="loader2">
+            <div class="loader loader_each"><span></span></div>
+        </div>
+        <!-- loader end  -->
+        <!-- main start  -->
+        <div id="main">
+            <!-- header start -->
+            @await Html.PartialAsync("header")
+            <!-- header end -->
+            <!-- left-panel -->
+            @await Html.PartialAsync("leftPanel")
+            <!-- left-panel end -->
+            <!-- share-button -->
+            <div class="share-button showshare">
+                <span>@Umbraco.GetDictionaryValue("home.Social")</span>
+            </div>
+            <!-- share-button end -->
+            <!-- wrapper  -->
+            <div id="wrapper">
+                <!-- content-holder  -->	
+                <div class="content-holder" data-pagetitle="@root.Value("siteName")">
+                    <!-- nav-holder-->
+                    <div class="nav-holder but-hol">
+                        <div class="nav-scroll-bar-wrap fl-wrap">
+                            
+                            <!-- nav -->
+                            @await Html.PartialAsync("nav-menu")
+                            <!-- nav end-->
+                            <!--lang-links-->
+                           
+                            <!--lang-links end-->
+                        </div>
+                        <!--nav-social-->
+                        @await Html.PartialAsync("navSocial")
+                        <!--nav-social end -->
+                    </div>
+                    <div class="nav-overlay">
+                        <div class="element"></div>
+                    </div>
+                    <!-- nav-holder end -->                
+                    <!--Content -->	
+                    @RenderBody()
+                                <!-- content  end -->
+                    @if(Model.Name != root.Name)
+                    {
+                        <!-- footer -->
+                        <div class="height-emulator fl-wrap"></div>
+                        <footer class="main-footer fixed-footer">
+                            <div class="pr-bg"></div>
+                            <div class="container">
+                                
+                                <div class="subfooter fl-wrap">
+                                    <!-- policy-box-->
+                                    <div class="policy-box">
+                                        <span> @root.Value("siteName") @DateTime.Now.Year  /  @Umbraco.GetDictionaryValue("footer.Copyright") </span>
+                                    </div>
+                                    <!-- policy-box end-->
+                                    <a href="#" class="to-top-btn to-top">@Umbraco.GetDictionaryValue("page.Top") <i class="fal fa-long-arrow-up"></i></a>
+                                </div>
+                            </div>
+                            <div class="footer-canvas">
+                                <div class="dots gallery__dots" data-dots=""></div>
+                            </div>
+                        </footer>
+                        <!-- footer  end -->
+                    }  
+                    <!-- share-wrapper-->  
+                    <div class="share-wrapper">
+                        <div class="close-share-btn"><i class="fal fa-long-arrow-left"></i> Close</div>
+                        <div class="share-container fl-wrap  isShare"></div>
+                    </div>
+                    <!-- share-wrapper  end --> 
+                </div>
+                <!-- content-holder end -->	
+            </div>
+            <!-- wrapper end -->
+        </div>>
+        <!-- Main end -->
+        <!--=============== scripts  ===============-->
+        <script type="text/javascript" src="/scripts/jquery.min.js"></script>
+        <script type="text/javascript" src="/scripts/plugins.js"></script>
+        <script type="text/javascript" src="/scripts/core.js"></script>
+        <script type="text/javascript" src="/scripts/scripts.js"></script>
+    </body>
+
+</html>

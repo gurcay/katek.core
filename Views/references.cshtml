@@ -1,0 +1,53 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core.Models;
+@using Umbraco.Cms.Core.Models.Blocks;
+
+
+@{
+    Layout = "mainTemplate.cshtml";
+    var root = Model.AncestorsOrSelf().Last();
+    var referenceRepo = root.ChildrenOfType("referencePage").Where(x => x.IsVisible()).FirstOrDefault();
+    var references = referenceRepo.Value<IEnumerable<BlockListItem>>("referenceRepo").Select(x => x.Content);
+
+}
+
+@if(references != null)
+{
+    <!--horizontal-grid-->   
+    <div class="horizontal-grid-wrap  fl-wrap  ">
+        <!-- portfolio start -->
+        <div   id="portfolio_horizontal_container" class="two-ver-columns">
+        
+            @foreach(var item in references)
+            {
+                string image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeJQeJyzgAzTEVqXiGe90RGBFhfp_4RcJJMQ&s";
+                if(item.HasValue("refImage"))
+                {
+                    image = item.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("refImage").Url().ToString();
+                }
+
+                <!-- portfolio_item-->
+                <div class="portfolio_item interior">
+                    <div class="grid-item-holder">
+                        <img src="@image" alt="@item.Value("refName")">
+                        <div class="grid-det">
+                            <div class="grid-det_category">
+                                <div class="grid-det-item">
+                                    <a href="@item.Value("refSite")" class="ajax grid-det_link">
+                                        @item.Value("refName") <i class="fal fa-long-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pr-bg"></div>
+                    </div>
+                </div>
+                <!-- end of portfolio_item-->
+            }
+        
+
+        </div>
+    </div>
+    <!--end of horizontal-grid-->
+}
