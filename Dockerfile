@@ -21,8 +21,5 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Veritabaný ve medya dosyalarýný ekleyelim
-COPY wwwroot/media /app/wwwroot/media
-COPY umbraco/Data/katekDb.sqlite.db /app/umbraco/Data/katekDb.sqlite.db
 
 ENTRYPOINT ["dotnet", "katek.Web.dll"]

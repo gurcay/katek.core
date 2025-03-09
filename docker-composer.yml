@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  katek-web:
+    image: katek-web:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/lib/katek/media/media:/app/media
+      - /var/lib/katek/db:/app/db

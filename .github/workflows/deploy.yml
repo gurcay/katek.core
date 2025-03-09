@@ -26,7 +26,7 @@ jobs:
           source: "katek-web.tar"
           target: "/tmp/"
 
-      - name: Load image and run container
+      - name: Load image, run container and cleanup
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -37,3 +37,5 @@ jobs:
             docker stop katek-web-container || true
             docker rm katek-web-container || true
             docker run -d --name katek-web-container -p 8080:8080 katek-web:latest
+            rm /tmp/katek-web.tar
+            docker image prune -f
