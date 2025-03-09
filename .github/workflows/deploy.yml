@@ -39,4 +39,4 @@ jobs:
             rm /tmp/katek-web.tar
             docker image prune -f
             docker system prune -f --volumes
-            docker run -d --name katek-web-container -p 8080:8080 katek-web:latest
+            docker run -d --name katek-web-container -p 8080:8080 \ -v /var/lib/katek/media/media:/app/wwwroot/media \ -v /var/lib/katek/db:/app/umbraco/Data \ katek-web:latest

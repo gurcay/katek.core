@@ -5,5 +5,5 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /var/lib/katek/media:/app/media
+      - /var/lib/katek/media/media:/app/media
       - /var/lib/katek/db:/app/db
