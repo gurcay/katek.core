@@ -1,25 +1,39 @@
-name: Deploy to Linux Server
+name: Deploy via Tar
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  deploy:
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.0
+      - name: Build Docker image
+        run: docker build -t katek-web:latest .
+
+      - name: Save image as tar
+        run: docker save katek-web:latest > katek-web.tar
+
+      - name: Transfer tar file to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "katek-web.tar"
+          target: "/tmp/"
+
+      - name: Load image and run container
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /var/www/Katek.Core
-            git pull origin main
-            docker-compose down
-            docker-compose up -d
+            docker load < /tmp/katek-web.tar
+            docker stop katek-web-container || true
+            docker rm katek-web-container || true
+            docker run -d --name katek-web-container -p 8080:8080 katek-web:latest
