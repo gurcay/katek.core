@@ -39,4 +39,5 @@ jobs:
             rm /tmp/katek-web.tar
             docker image prune -f
             docker system prune -f --volumes
-            docker run -d --name katek-web-container -p 8080:8080   -v /var/lib/katek/media/media:/app/wwwroot/media   -v /var/lib/katek/db:/app/umbraco/Data   katek-web:latest restart:always
+            docker run -d --restart always -p 8080:8080 -p 8081:8081 --name katek-web-container -v /root/sqliteDb/katekDb.sqlite.db:/app/umbraco/Data/katekDb.sqlite.db katek-web
+
