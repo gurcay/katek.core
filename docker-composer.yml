@@ -2,8 +2,15 @@ version: '3.8'
 services:
   katek-web:
     image: katek-web:latest
+    restart: always
     ports:
       - "8080:8080"
     volumes:
       - /var/lib/katek/media/media:/app/media
       - /var/lib/katek/db:/app/db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
